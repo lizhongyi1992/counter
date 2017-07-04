@@ -9,10 +9,6 @@ import (
 func main() {
 	fmt.Println("counter")
 
-	_dbg("adfasdf", "adfadsf")
-	_err("adfasdf", "adfadsf")
-	_log("adfasdf")
-
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
