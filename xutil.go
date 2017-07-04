@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
+	"runtime"
 	"syscall"
 
 	"github.com/gin-gonic/gin"
@@ -23,8 +25,14 @@ func init() {
 	log.SetFlags(log.LstdFlags)
 }
 
+func getCaller2() string {
+	pc, file, line, _ := runtime.Caller(2)
+	f := runtime.FuncForPC(pc)
+	return file + " " + fmt.Sprint(line) + " " + f.Name()
+}
+
 func _dbg(v ...interface{}) {
-	logger.Println("DBG", v)
+	logger.Println("DBG", v, getCaller2())
 }
 
 func _err(v ...interface{}) {
