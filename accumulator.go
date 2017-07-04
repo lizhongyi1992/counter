@@ -2,21 +2,21 @@ package main
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/go-redis/redis"
+	"github.com/garyburd/redigo/redis"
 )
 
 type accumulator struct {
 	config accumulator_config
 }
 
-func test() {
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+func test_redis() {
+	c, err := redis.Dial("tcp", "localhost:6379")
 
-	})
-	pong, err := client.Ping().Result()
-	fmt.Println(pong, err)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	defer c.Close()
 }

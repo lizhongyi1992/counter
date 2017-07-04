@@ -3,6 +3,18 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "2UmMbNHc8FBr98mJFN1k8ISOIHk=",
+			"path": "github.com/garyburd/redigo/internal",
+			"revision": "57f1cd7de6175c96b423e7ac2534ff2b39e2ef79",
+			"revisionTime": "2017-06-15T18:53:09Z"
+		},
+		{
+			"checksumSHA1": "dGCqjUjHaREgF/BM+u0UdebD4fk=",
+			"path": "github.com/garyburd/redigo/redis",
+			"revision": "57f1cd7de6175c96b423e7ac2534ff2b39e2ef79",
+			"revisionTime": "2017-06-15T18:53:09Z"
+		},
+		{
 			"checksumSHA1": "QeKwBtN2df+j+4stw3bQJ6yO4EY=",
 			"path": "github.com/gin-contrib/sse",
 			"revision": "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae",
@@ -25,42 +37,6 @@
 			"path": "github.com/gin-gonic/gin/render",
 			"revision": "f0b54a30238973ddb0bc9c9a58d8b7af038139b1",
 			"revisionTime": "2017-07-03T05:55:21Z"
-		},
-		{
-			"checksumSHA1": "R82M6FAQgi/38ZffFO2E9GreJAU=",
-			"path": "github.com/go-redis/redis",
-			"revision": "564772f045d89bd55843d7dc8042e0a599401e09",
-			"revisionTime": "2017-07-01T10:54:10Z"
-		},
-		{
-			"checksumSHA1": "MRrokoHPCfm0vPnMSRtckscnIDI=",
-			"path": "github.com/go-redis/redis/internal",
-			"revision": "564772f045d89bd55843d7dc8042e0a599401e09",
-			"revisionTime": "2017-07-01T10:54:10Z"
-		},
-		{
-			"checksumSHA1": "GQZsUVg/+6UpQAYpc4luMvMutSI=",
-			"path": "github.com/go-redis/redis/internal/consistenthash",
-			"revision": "564772f045d89bd55843d7dc8042e0a599401e09",
-			"revisionTime": "2017-07-01T10:54:10Z"
-		},
-		{
-			"checksumSHA1": "VP0K8vvf716n6xuzAZTvpz+wTwc=",
-			"path": "github.com/go-redis/redis/internal/hashtag",
-			"revision": "564772f045d89bd55843d7dc8042e0a599401e09",
-			"revisionTime": "2017-07-01T10:54:10Z"
-		},
-		{
-			"checksumSHA1": "Td4YkoD/zGT8GVgr4x4azclprNs=",
-			"path": "github.com/go-redis/redis/internal/pool",
-			"revision": "564772f045d89bd55843d7dc8042e0a599401e09",
-			"revisionTime": "2017-07-01T10:54:10Z"
-		},
-		{
-			"checksumSHA1": "Ct2AS6Z9YmTAlKOMsBrhwvpXAPY=",
-			"path": "github.com/go-redis/redis/internal/proto",
-			"revision": "564772f045d89bd55843d7dc8042e0a599401e09",
-			"revisionTime": "2017-07-01T10:54:10Z"
 		},
 		{
 			"checksumSHA1": "qlPUeFabwF4RKAOF1H+yBFU1Veg=",
