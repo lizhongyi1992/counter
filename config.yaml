@@ -1,12 +1,13 @@
 listenat: :8888
-accumulators:
-- redisaddress: localhost:6379
+videoacc:
+  redisaddress: localhost:6379
   redispassword: ""
-  redisdb: ""
+  redishashsetname: acc_views
+  redishashshufflesuffix: _inprogress
   mysqladdress: ""
   mysqlpassword: ""
   mysqldb: localhost:3306
-  mysqltable: test
+  mysqltable: testdb.test
   mysqlfield: ""
   flushintervalsecond: 60
   maxkeycached: 10000

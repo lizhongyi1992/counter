@@ -13,6 +13,7 @@ type redisconn struct {
 }
 
 func NewRedisConnection(network, address string) (RedisConnection, error) {
+	_dbg(network, address)
 	p := &redisconn{}
 	c, e := redis.Dial(network, address)
 	if e != nil {
