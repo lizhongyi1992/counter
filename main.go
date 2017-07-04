@@ -33,8 +33,10 @@ func main() {
 
 	r := gin.Default()
 
+	app := NewApp(config)
+
 	r.GET("/ping", ping_test)
-	r.POST("/incr_view_count", incr_view_count)
+	r.POST("/incr_video_views", app.incr_video_views)
 
 	go r.Run(config.ListenAt)
 

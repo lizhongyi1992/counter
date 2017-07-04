@@ -7,14 +7,15 @@ import (
 )
 
 type Config struct {
-	ListenAt     string
-	Accumulators []accumulator_config
+	ListenAt string
+	VideoAcc accumulator_config
 }
 
 type accumulator_config struct {
-	RedisAddress  string
-	RedisPassword string
-	RedisDB       string
+	RedisAddress           string
+	RedisPassword          string
+	RedisHashSetName       string
+	RedisHashShuffleSuffix string
 
 	MysqlAddress  string
 	MysqlPassword string
@@ -32,14 +33,14 @@ type accumulator_config struct {
 func default_config() Config {
 	c := Config{
 		ListenAt: ":8888",
-		Accumulators: []accumulator_config{
-			accumulator_config{
-				RedisAddress:        "localhost:6379",
-				MysqlDB:             "localhost:3306",
-				MysqlTable:          "test",
-				FlushIntervalSecond: 60,
-				MaxKeyCached:        10000,
-			},
+		VideoAcc: accumulator_config{
+			RedisAddress:           "localhost:6379",
+			RedisHashSetName:       "acc_views",
+			RedisHashShuffleSuffix: "_inprogress",
+			MysqlDB:                "localhost:3306",
+			MysqlTable:             "testdb.test",
+			FlushIntervalSecond:    60,
+			MaxKeyCached:           10000,
 		},
 	}
 	return c
