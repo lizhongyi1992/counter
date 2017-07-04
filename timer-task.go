@@ -7,6 +7,7 @@ type TimerTask struct {
 	perSecond int
 	f         func()
 	running   bool
+	ticker    *time.Ticker
 }
 
 func NewTimerTask(perSecond int, f func()) *TimerTask {
@@ -19,6 +20,7 @@ func NewTimerTask(perSecond int, f func()) *TimerTask {
 		perSecond: perSecond,
 		f:         f,
 		running:   false,
+		ticker:    time.NewTicker(time.Duration(perSecond) * time.Second),
 	}
 	return p
 }
@@ -26,15 +28,15 @@ func NewTimerTask(perSecond int, f func()) *TimerTask {
 func (p *TimerTask) Start() {
 	p.running = true
 	for p.running == true {
-		_dbg(2)
-		time.Sleep(1 * time.Second)
+		select {
+		case <-p.ticker.C:
+			p.f()
+		}
 	}
 }
 
 func (p *TimerTask) Stop() {
-	_dbg("aaa")
 	close(p.stopchan)
-	_dbg("bbb")
 	p.running = false
 }
 

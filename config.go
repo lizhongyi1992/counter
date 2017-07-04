@@ -39,8 +39,8 @@ func default_config() Config {
 			RedisHashShuffleSuffix: "_inprogress",
 			MysqlDB:                "localhost:3306",
 			MysqlTable:             "testdb.test",
-			FlushIntervalSecond:    60,
-			MaxKeyCached:           10000,
+			FlushIntervalSecond:    2,
+			MaxKeyCached:           1000,
 		},
 	}
 	return c

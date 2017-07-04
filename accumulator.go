@@ -15,6 +15,10 @@ func NewAccumulator(c accumulator_config) *accumulator {
 	return p
 }
 
+func (p *accumulator) Stop() {
+	p.conn.Close()
+}
+
 func (p *accumulator) Incr(key string) {
 	p.conn.Hincrby(p.config.RedisHashSetName, key, 1)
 }

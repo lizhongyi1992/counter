@@ -38,13 +38,17 @@ func main() {
 	r.GET("/ping", ping_test)
 	r.POST("/incr_video_views", app.incr_video_views)
 
-	syncer := NewTimerTask(config.VideoAcc.FlushIntervalSecond, func() {})
-	go syncer.Start()
+	syncer := NewTimerTask(config.VideoAcc.FlushIntervalSecond, func() {
+		sync_redis_to_mysql(config.VideoAcc)
+	})
 
+	go syncer.Start()
 	go r.Run(config.ListenAt)
 
 	s := <-waiting_for_interrupt_chan()
 	_log("quit when catch signal:", s)
+
+	app.Stop()
 	syncer.Stop()
 	_log("waiting for syncer exit")
 	<-syncer.StopChan()

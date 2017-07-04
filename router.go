@@ -8,9 +8,12 @@ type App struct {
 
 func NewApp(config Config) *App {
 	app := &App{}
-	_dbg("adfsa", config)
 	app.video_acc = NewAccumulator(config.VideoAcc)
 	return app
+}
+
+func (p *App) Stop() {
+	p.video_acc.Stop()
 }
 
 func (p *App) incr_video_views(c *gin.Context) {

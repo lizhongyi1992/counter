@@ -9,8 +9,8 @@ videoacc:
   mysqldb: localhost:3306
   mysqltable: testdb.test
   mysqlfield: ""
-  flushintervalsecond: 60
-  maxkeycached: 10000
+  flushintervalsecond: 2
+  maxkeycached: 1000
   writedbtimeout: 0
   failretrytimes: 0
 
