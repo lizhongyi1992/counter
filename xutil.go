@@ -9,6 +9,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	VERSION   string
+	BUILT     string
+	GITHASH   string
+	GOVERSION string
+)
+
 var logger *log.Logger
 
 func init() {
@@ -47,7 +54,7 @@ func waiting_for_interrupt_chan() chan os.Signal {
 }
 
 func version_string() string {
-	return "0.0.1"
+	return VERSION + " " + GITHASH + " " + BUILT + " " + GOVERSION
 }
 
 func ping_test(c *gin.Context) {
