@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -11,22 +10,26 @@ import (
 func main() {
 
 	var genconf, show_version bool
+	var config_file string
 
 	flag.BoolVar(&genconf, "genconf", false, "generate a sample config")
 	flag.BoolVar(&show_version, "version", false, "show version string and exit")
+	flag.StringVar(&config_file, "c", "config.yaml", "config file path")
 	flag.Parse()
 
 	if show_version {
 		fmt.Println(version_string())
-		os.Exit(0)
+		_exit()
 	}
 
 	if genconf {
 		fmt.Println(gen_sample_config())
-		os.Exit(0)
+		_exit()
 	}
 
-	config := ParseConfig()
+	config, err := ParseConfig(config_file)
+	_exit_if(err)
+	_log(config)
 
 	r := gin.Default()
 

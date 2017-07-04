@@ -1,2 +1,15 @@
-ListenAt: :8888
+listenat: :8888
+accumulators:
+- redisaddress: localhost:6379
+  redispassword: ""
+  redisdb: ""
+  mysqladdress: ""
+  mysqlpassword: ""
+  mysqldb: localhost:3306
+  mysqltable: test
+  mysqlfield: ""
+  flushintervalsecond: 60
+  maxkeycached: 10000
+  writedbtimeout: 0
+  failretrytimes: 0
 

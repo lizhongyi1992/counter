@@ -24,8 +24,19 @@ func _err(v ...interface{}) {
 	log.Println("ERR", v)
 }
 
+func _exit_if(err error, v ...interface{}) {
+	if err != nil {
+		log.Println("ERR Exit", err, v)
+		os.Exit(-1)
+	}
+}
+
 func _log(v ...interface{}) {
 	log.Println("INF", v)
+}
+
+func _exit() {
+	os.Exit(0)
 }
 
 func waiting_for_interrupt_chan() chan os.Signal {
