@@ -22,6 +22,7 @@ type accumulator_config struct {
 	MysqlDB       string
 	MysqlTable    string
 	MysqlField    string
+	MysqlKey      string
 
 	FlushIntervalSecond int
 	MaxKeyCached        int
@@ -39,6 +40,8 @@ func default_config() Config {
 			RedisHashShuffleSuffix: "_inprogress",
 			MysqlDB:                "localhost:3306",
 			MysqlTable:             "testdb.test",
+			MysqlField:             "views_count",
+			MysqlKey:               "video_id",
 			FlushIntervalSecond:    2,
 			MaxKeyCached:           1000,
 		},

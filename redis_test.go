@@ -19,9 +19,36 @@ func Test_redis(t *testing.T) {
 }
 
 func Test_redis2(t *testing.T) {
-	c, e := NewRedisConnection("tcp", "localhost:6379")
+	c, e := NewRedisConn("tcp", "localhost:6379")
 	if e != nil {
 		t.Error(e)
 	}
 	c.Incr("a")
+}
+
+func Test_redis_rename(t *testing.T) {
+	c, e := NewRedisConn("tcp", "localhost:6379")
+	if e != nil {
+		t.Error(e)
+	}
+	c.Incr("abc")
+	c.Rename("abc", "cba")
+}
+
+func Test_redis_hkeys(t *testing.T) {
+	c, e := NewRedisConn("tcp", "localhost:6379")
+	if e != nil {
+		t.Error(e)
+	}
+	r := c.Hkeys("acc_views")
+	t.Log(r)
+}
+
+func Test_redis_hget(t *testing.T) {
+	c, e := NewRedisConn("tcp", "localhost:6379")
+	if e != nil {
+		t.Error(e)
+	}
+	r := c.Hget("acc_views", "abc")
+	t.Log(r)
 }

@@ -38,8 +38,17 @@ func main() {
 	r.GET("/ping", ping_test)
 	r.POST("/incr_video_views", app.incr_video_views)
 
+	sqlconn, e := NewSQLConn("root:root@tcp(localhost:3306)")
+	if e != nil {
+		_err(e)
+	}
+	redisconn, e := NewRedisConn("tcp", config.VideoAcc.RedisAddress)
+	if e != nil {
+		_err(e)
+	}
+
 	syncer := NewTimerTask(config.VideoAcc.FlushIntervalSecond, func() {
-		sync_redis_to_mysql(config.VideoAcc)
+		sync_redis_to_mysql(config.VideoAcc, sqlconn, redisconn)
 	})
 
 	go syncer.Start()

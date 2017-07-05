@@ -2,11 +2,11 @@ package main
 
 type accumulator struct {
 	config accumulator_config
-	conn   RedisConnection
+	conn   RedisConn
 }
 
 func NewAccumulator(c accumulator_config) *accumulator {
-	conn, e := NewRedisConnection("tcp", c.RedisAddress)
+	conn, e := NewRedisConn("tcp", c.RedisAddress)
 	_exit_if(e, c.RedisAddress)
 	p := &accumulator{
 		config: c,

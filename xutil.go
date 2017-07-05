@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"path"
 	"runtime"
 	"syscall"
 
@@ -25,29 +26,29 @@ func init() {
 	log.SetFlags(log.LstdFlags)
 }
 
-func getCaller2() string {
+func callerinfo() string {
 	pc, file, line, _ := runtime.Caller(2)
 	f := runtime.FuncForPC(pc)
-	return file + " " + fmt.Sprint(line) + " " + f.Name()
+	return path.Base(file) + "(" + fmt.Sprint(line) + ") " + path.Base(f.Name())
 }
 
 func _dbg(v ...interface{}) {
-	logger.Println("DBG", v, getCaller2())
+	logger.Println("DBG", v, callerinfo())
 }
 
 func _err(v ...interface{}) {
-	log.Println("ERR", v)
+	log.Println("ERR", v, callerinfo())
 }
 
 func _exit_if(err error, v ...interface{}) {
 	if err != nil {
-		log.Println("ERR Exit", err, v)
+		log.Println("ERR Exit", err, v, callerinfo())
 		os.Exit(-1)
 	}
 }
 
 func _log(v ...interface{}) {
-	log.Println("INF", v)
+	log.Println("INF", v, callerinfo())
 }
 
 func _exit() {
