@@ -8,7 +8,8 @@ videoacc:
   mysqlpassword: ""
   mysqldb: localhost:3306
   mysqltable: testdb.test
-  mysqlfield: ""
+  mysqlfield: views_count
+  mysqlkey: video_id
   flushintervalsecond: 2
   maxkeycached: 1000
   writedbtimeout: 0
