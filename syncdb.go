@@ -4,6 +4,7 @@ func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn 
 	_dbg("sync_redis_to_mysql")
 
 	oldhset := config.RedisHashSetName
+	// TODO:newhset name should append procno+timestamp for concurrency
 	newhset := config.RedisHashSetName + config.RedisHashShuffleSuffix
 
 	if !redisconn.Exists(oldhset) {
@@ -28,6 +29,8 @@ func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn 
 	id := config.MysqlKey
 	sqlstr := "update " + table + " set " + field + "=" + field + "+? where " + id + "=?"
 	_dbg(sqlstr, sqlconn)
+
+	//TODO: batch n to reduce sql operation timeout
 	tx, e := sqlconn.db.Begin()
 	if e != nil {
 		_err(e)
