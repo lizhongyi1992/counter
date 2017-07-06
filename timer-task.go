@@ -8,7 +8,6 @@ type TimerTask struct {
 	f         func()
 	running   bool
 	ticker    *time.Ticker
-	timer     *time.Timer
 }
 
 func NewTimerTask(perSecond int, f func()) *TimerTask {

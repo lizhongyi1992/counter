@@ -38,7 +38,7 @@ func main() {
 	r.GET("/ping", ping_test)
 	r.POST("/incr_video_views", app.incr_video_views)
 
-	dsn := config.VideoAcc.MysqlUser + ":" + config.VideoAcc.MysqlPassword + "@tcp(" + config.VideoAcc.MysqlDB + ")/"
+	dsn := config.VideoAcc.MysqlUser + ":" + config.VideoAcc.MysqlPassword + "@tcp(" + config.VideoAcc.MysqlAddress + ")/"
 	sqlconn, e := NewSQLConn(dsn)
 	if e != nil {
 		_exit_if(e)
@@ -60,7 +60,6 @@ func main() {
 
 	app.Stop()
 	syncer.Stop()
-	_dbg(config.VideoAcc.MysqlUser)
 	_log("waiting for syncer exit")
 	<-syncer.StopChan()
 }

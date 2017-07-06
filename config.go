@@ -41,7 +41,7 @@ func default_config() Config {
 			RedisHashShuffleSuffix: "_inprogress",
 			MysqlUser:              "root",
 			MysqlPassword:          "root",
-			MysqlDB:                "localhost:3306",
+			MysqlAddress:           "localhost:3306",
 			MysqlTable:             "test.tshare",
 			MysqlField:             "playtimes",
 			MysqlKey:               "no",

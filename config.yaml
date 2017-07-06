@@ -4,10 +4,10 @@ videoacc:
   redispassword: ""
   redishashsetname: acc_views
   redishashshufflesuffix: _inprogress
-  mysqladdress: ""
+  mysqladdress: localhost:3306
   mysqluser: root
   mysqlpassword: root
-  mysqldb: localhost:3306
+  mysqldb: ""
   mysqltable: test.tshare
   mysqlfield: playtimes
   mysqlkey: "no"

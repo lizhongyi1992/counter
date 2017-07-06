@@ -1,6 +1,11 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
+)
 
 type App struct {
 	video_acc *accumulator
@@ -17,11 +22,12 @@ func (p *App) Stop() {
 }
 
 func (p *App) incr_video_views(c *gin.Context) {
-	video_id := c.Query("video_id")
-	if video_id == "" {
-		c.Status(200)
+	video_id, e := strconv.Atoi(c.Query("video_id"))
+
+	if e != nil {
+		c.Status(400)
 		return
 	}
-	p.video_acc.Incr(video_id)
+	p.video_acc.Incr(fmt.Sprint(video_id))
 	c.Status(200)
 }
