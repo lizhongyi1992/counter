@@ -5,7 +5,8 @@ videoacc:
   redishashsetname: acc_views
   redishashshufflesuffix: _inprogress
   mysqladdress: ""
-  mysqlpassword: ""
+  mysqluser: root
+  mysqlpassword: root
   mysqldb: localhost:3306
   mysqltable: test.tshare
   mysqlfield: playtimes

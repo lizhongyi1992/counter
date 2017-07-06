@@ -18,6 +18,7 @@ type accumulator_config struct {
 	RedisHashShuffleSuffix string
 
 	MysqlAddress  string
+	MysqlUser     string
 	MysqlPassword string
 	MysqlDB       string
 	MysqlTable    string
@@ -38,6 +39,8 @@ func default_config() Config {
 			RedisAddress:           "localhost:6379",
 			RedisHashSetName:       "acc_views",
 			RedisHashShuffleSuffix: "_inprogress",
+			MysqlUser:              "root",
+			MysqlPassword:          "root",
 			MysqlDB:                "localhost:3306",
 			MysqlTable:             "test.tshare",
 			MysqlField:             "playtimes",

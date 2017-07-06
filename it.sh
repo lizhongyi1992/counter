@@ -13,15 +13,15 @@ $MYSQL"insert into test.tshare (no,playtimes) values('testid2',0);"
 $MYSQL"insert into test.tshare (no,playtimes) values('testid3',0);"
 
 for i in {1..10};do
-    curl -XPOST 'localhost:8888/incr_video_views?video_id=testid1'
+    curl -XPOST 'localhost:8888/incr_video_views?video_id=testid1' 2>&1 > /dev/null
 done
 
 for i in {1..20};do
-    curl -XPOST 'localhost:8888/incr_video_views?video_id=testid2'
+    curl -XPOST 'localhost:8888/incr_video_views?video_id=testid2' 2>&1 > /dev/null
 done
 
 for i in {1..30};do
-    curl -i -XPOST 'localhost:8888/incr_video_views?video_id=testid3'
+    curl -i -XPOST 'localhost:8888/incr_video_views?video_id=testid3' 2>&1 > /dev/null
 done
 
 sleep 2
