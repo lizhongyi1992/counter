@@ -5,13 +5,18 @@ func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn 
 
 	oldhset := config.RedisHashSetName
 	newhset := config.RedisHashSetName + config.RedisHashShuffleSuffix
+
+	if !redisconn.Exists(oldhset) {
+		_log("old,new hset name:", oldhset, newhset, "-oldhset not exist,continue")
+		return
+	}
 	redisconn.Rename(oldhset, newhset)
 
 	toupdate := map[string]string{}
 	hkeys := redisconn.Hkeys(newhset)
 
 	for _, key := range hkeys {
-		toupdate[key] = redisconn.Hget(newhset, key)
+		toupdate[key], _ = redisconn.Hget(newhset, key)
 	}
 
 	// n
@@ -21,7 +26,8 @@ func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn 
 	table := config.MysqlTable
 	field := config.MysqlField
 	id := config.MysqlKey
-	sqlstr := "update " + table + "set " + field + "=" + field + "+? where " + id + "=?"
+	sqlstr := "update " + table + " set " + field + "=" + field + "+? where " + id + "=?"
+	_dbg(sqlstr, sqlconn)
 	tx, e := sqlconn.db.Begin()
 	if e != nil {
 		_err(e)

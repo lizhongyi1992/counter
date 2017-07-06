@@ -49,6 +49,15 @@ func Test_redis_hget(t *testing.T) {
 	if e != nil {
 		t.Error(e)
 	}
-	r := c.Hget("acc_views", "abc")
+	r, e := c.Hget("acc_views", "abc")
+	t.Log(r, e)
+}
+
+func Test_redis_exist(t *testing.T) {
+	c, e := NewRedisConn("tcp", "localhost:6379")
+	if e != nil {
+		t.Error(e)
+	}
+	r := c.Exists("acc_views")
 	t.Log(r)
 }

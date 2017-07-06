@@ -27,8 +27,8 @@ func main() {
 		_exit()
 	}
 
-	config, err := ParseConfig(config_file)
-	_exit_if(err)
+	config, e := ParseConfig(config_file)
+	_exit_if(e)
 	_log(config)
 
 	r := gin.Default()
@@ -38,9 +38,9 @@ func main() {
 	r.GET("/ping", ping_test)
 	r.POST("/incr_video_views", app.incr_video_views)
 
-	sqlconn, e := NewSQLConn("root:root@tcp(localhost:3306)")
+	sqlconn, e := NewSQLConn("root:root@tcp(localhost:3306)/")
 	if e != nil {
-		_err(e)
+		_exit_if(e)
 	}
 	redisconn, e := NewRedisConn("tcp", config.VideoAcc.RedisAddress)
 	if e != nil {

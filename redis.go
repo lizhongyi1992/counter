@@ -1,6 +1,10 @@
 package main
 
-import "github.com/garyburd/redigo/redis"
+import (
+	"errors"
+
+	"github.com/garyburd/redigo/redis"
+)
 
 type RedisConn interface {
 	Close()
@@ -9,7 +13,8 @@ type RedisConn interface {
 	Rename(oldkey, newkey string)
 	Del(key string)
 	Hkeys(key string) []string
-	Hget(key, hkey string) string
+	Hget(key, hkey string) (string, error)
+	Exists(key string) bool
 }
 
 type redisconn struct {
@@ -79,11 +84,31 @@ func (p *redisconn) Hkeys(key string) []string {
 	return r
 }
 
-func (p *redisconn) Hget(key, hkey string) string {
+func (p *redisconn) Hget(key, hkey string) (string, error) {
 	reply, e := p.conn.Do("hget", key, hkey)
 	if e != nil {
 		_err(e)
+		return "", e
 	}
-	_dbg(string(reply.([]byte)))
-	return string(reply.([]byte))
+	_dbg(reply)
+	switch t := reply.(type) {
+	case []byte:
+		return string(t), nil
+	case nil:
+		return "", errors.New("")
+	}
+	return "", errors.New("")
+}
+
+func (p *redisconn) Exists(key string) bool {
+	reply, e := p.conn.Do("exists", key)
+	if e != nil {
+		_err(e)
+	}
+	b := reply.(int64)
+	if b == 0 {
+		return false
+	} else {
+		return true
+	}
 }

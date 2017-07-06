@@ -7,9 +7,9 @@ videoacc:
   mysqladdress: ""
   mysqlpassword: ""
   mysqldb: localhost:3306
-  mysqltable: testdb.test
-  mysqlfield: views_count
-  mysqlkey: video_id
+  mysqltable: test.tshare
+  mysqlfield: playtimes
+  mysqlkey: "no"
   flushintervalsecond: 2
   maxkeycached: 1000
   writedbtimeout: 0
