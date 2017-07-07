@@ -2,13 +2,13 @@ package main
 
 import (
 	"errors"
+	"time"
 
 	"github.com/garyburd/redigo/redis"
 )
 
 type RedisConn interface {
 	Close()
-	Incr(key string)
 	Hincrby(key, field string, increment int)
 	Rename(oldkey, newkey string)
 	Del(key string)
@@ -18,58 +18,64 @@ type RedisConn interface {
 }
 
 type redisconn struct {
-	conn redis.Conn
+	pool *redis.Pool
 }
 
 func NewRedisConn(network, address string) (RedisConn, error) {
 	_dbg(network, address)
+	//TODO: poolzition
 	p := &redisconn{}
 	c, e := redis.Dial(network, address)
 	if e != nil {
 		return nil, e
 	}
-	p.conn = c
+	// just for test
+	c.Close()
+
+	newpool := &redis.Pool{
+		MaxIdle:     3,
+		IdleTimeout: 240 * time.Second,
+		Dial:        func() (redis.Conn, error) { return redis.Dial(network, address) },
+	}
+	p.pool = newpool
 	return p, nil
 }
 
 func (p *redisconn) Close() {
-	e := p.conn.Close()
-	if e != nil {
-		_err(e)
-	}
-}
-
-func (p *redisconn) Incr(key string) {
-	_, e := p.conn.Do("incr", key)
+	e := p.pool.Close()
 	if e != nil {
 		_err(e)
 	}
 }
 
 func (p *redisconn) Hincrby(key, field string, increment int) {
-	_, e := p.conn.Do("hincrby", key, field, increment)
+	conn := p.pool.Get()
+	_, e := conn.Do("hincrby", key, field, increment)
 	if e != nil {
 		_err(e)
 	}
 }
 
 func (p *redisconn) Rename(oldkey, newkey string) {
-	_, e := p.conn.Do("rename", oldkey, newkey)
+	conn := p.pool.Get()
+	_, e := conn.Do("rename", oldkey, newkey)
 	if e != nil {
 		_err(e)
 	}
 }
 
 func (p *redisconn) Del(key string) {
-	_, e := p.conn.Do("del", key)
+	conn := p.pool.Get()
+	_, e := conn.Do("del", key)
 	if e != nil {
 		_err(e)
 	}
 }
 
 func (p *redisconn) Hkeys(key string) []string {
+	conn := p.pool.Get()
 	r := []string{}
-	reply, e := p.conn.Do("hkeys", key)
+	reply, e := conn.Do("hkeys", key)
 	if e != nil {
 		_err(e)
 		return r
@@ -85,7 +91,8 @@ func (p *redisconn) Hkeys(key string) []string {
 }
 
 func (p *redisconn) Hget(key, hkey string) (string, error) {
-	reply, e := p.conn.Do("hget", key, hkey)
+	conn := p.pool.Get()
+	reply, e := conn.Do("hget", key, hkey)
 	if e != nil {
 		_err(e)
 		return "", e
@@ -101,7 +108,8 @@ func (p *redisconn) Hget(key, hkey string) (string, error) {
 }
 
 func (p *redisconn) Exists(key string) bool {
-	reply, e := p.conn.Do("exists", key)
+	conn := p.pool.Get()
+	reply, e := conn.Do("exists", key)
 	if e != nil {
 		_err(e)
 	}

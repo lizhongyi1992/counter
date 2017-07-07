@@ -31,6 +31,7 @@ func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn 
 	_dbg(sqlstr, sqlconn)
 
 	//TODO: batch n to reduce sql operation timeout
+	//TODO: error reconnect handle
 	tx, e := sqlconn.db.Begin()
 	if e != nil {
 		_err(e)
