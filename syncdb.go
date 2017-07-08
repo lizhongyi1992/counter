@@ -1,11 +1,19 @@
 package main
 
+import (
+	"fmt"
+	"os"
+	"time"
+)
+
 func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn RedisConn) {
 	_dbg("sync_redis_to_mysql")
 
 	oldhset := config.RedisHashSetName
-	// TODO:newhset name should append procno+timestamp for concurrency
-	newhset := config.RedisHashSetName + config.RedisHashShuffleSuffix
+
+	// newhset = "oldname_inprogress_pid_timestamp"
+	// TODO:newhset name should append pid+timestamp for concurrency
+	newhset := config.RedisHashSetName + config.RedisHashShuffleSuffix + "_" + fmt.Sprint(os.Getpid()) + "_" + fmt.Sprint(time.Now().Unix())
 
 	if !redisconn.Exists(oldhset) {
 		_log("old,new hset name:", oldhset, newhset, "-oldhset not exist,continue")
@@ -32,6 +40,15 @@ func sync_redis_to_mysql(config accumulator_config, sqlconn *SQLConn, redisconn 
 
 	//TODO: batch n to reduce sql operation timeout
 	//TODO: error reconnect handle
+	e := sqlconn.db.Ping()
+	if e != nil {
+		e = sqlconn.Reconnect()
+		if e != nil {
+			_err(e)
+			return
+		}
+	}
+
 	tx, e := sqlconn.db.Begin()
 	if e != nil {
 		_err(e)
